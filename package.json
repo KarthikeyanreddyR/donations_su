@@ -1,0 +1,19 @@
+{
+  "name": "donations_su",
+  "version": "1.0.0",
+  "description": "Small entry/display donations website for fundraiser at SeattleU",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "author": "Karthikeyan Reddy Rokkam",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "socket.io": "^2.2.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.11"
+  }
+}
