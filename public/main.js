@@ -8,16 +8,31 @@ const socketFun = (() => {
 
 socketFun.getSocket().on('newDonation', newDonation => {
     console.log(newDonation);
-    let totalAmount = document.getElementById('totalAmount');
-    if (totalAmount)
-        totalAmount.innerHTML = convertStringToNumber(totalAmount.innerHTML) + convertStringToNumber(newDonation.amount);
+    updateDom(newDonation.amount);
 });
+
+let getAmountFromFormattedString = (text) => {
+    if(text[0] == '$')
+        text = text.substring(1);
+    text = text.split(',').join('');
+    return text;
+}
 
 let convertStringToNumber = (text) => {
     if (Number(text) == NaN)
         return 0;
     else
         return Number(text);
+}
+
+let updateDom = (amount) => {
+    let totalAmount = document.getElementById('totalAmount');
+    if (totalAmount){
+        //let prevAmount = getAmountFromFormattedString(totalAmount.innerHTML);
+        //let sum = convertStringToNumber(prevAmount) + convertStringToNumber(amount);
+        //sum = convertStringToNumber(amount).toLocaleString(undefined, { style: 'currency', currency: 'USD' });
+        totalAmount.innerHTML = convertStringToNumber(amount).toLocaleString(undefined, { style: 'currency', currency: 'USD' });;
+    }
 }
 
 window.onload = () => {
