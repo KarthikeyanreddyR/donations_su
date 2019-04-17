@@ -7,4 +7,17 @@ block content
                 label.label Amount:
                 input#amount.input.is-primary.is-focused(type='number', min='0', placeholder="Donation Amount")
             div.control
-                button#submit.button.is-link Donate
+                button#submit.button.is-primary.is-pulled-left.is-normal Donate
+                button#reset.button.is-danger.is-pulled-right.is-normal Reset
+                div.is-clearfix
+    .modal
+        .modal-background
+        .modal-card
+            header.modal-card-head
+                p.modal-card-title Reset Donations
+                button.delete#close(aria-label='close')
+            section.modal-card-body
+                p All recorded donations will be erased premanently.
+                p Are you sure?
+            footer.modal-card-foot
+                button.button.is-danger#erase Erase

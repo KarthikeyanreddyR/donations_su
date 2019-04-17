@@ -24,9 +24,6 @@ app.use(bodyParser.json());
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
-// donation
-let totalDonationsAmount = 0;
-
 // socket setup
 let io = server_socket(server);
 
@@ -34,19 +31,24 @@ io.on('connection', (socket) => {
     console.log('made socket connection', socket.id);
 
     socket.on('addDonation', data => {
-        setTimeout(() => {
-            totalDonationsAmount += data.amount;
-            write(totalDonationsAmount, (err) => {
-                if(err) console.log(err);
-            });
-            read((err, content) => {
+        read((err, content) => {
+            if (err) console.log(err);
+            console.log(content)
+            prvAmount = Number(content);
+            let _amount;
+            if(Number(data.amount) == -1) {
+                // erase all donations
+                _amount = 0;
+            } else {
+                _amount = prvAmount + data.amount;
+            }
+            write(_amount, (err) => {
                 if (err) console.log(err);
-                prvAmount = Number(content);
                 io.sockets.emit('newDonation', {
-                    amount: prvAmount
+                    amount: _amount
                 });
             });
-        }, 10);
+        });
     });
 });
 
@@ -60,7 +62,7 @@ app.get('/', (req, res) => {
                 amount: prvAmount
             });
         });
-    }, 10);
+    }, 1000);
     res.render('index');
 });
 
@@ -69,11 +71,11 @@ app.get('/donate', (req, res) => {
 });
 
 // read amount from file
-let read = (callback) => {
+let read = async (callback) => {
     fs.readFile('temp.txt', 'utf8', callback);
 }
 
 // write amount to file
-let write = (amount, callback) => {
+let write = async (amount, callback) => {
     fs.writeFile('temp.txt', amount, callback);
 }
