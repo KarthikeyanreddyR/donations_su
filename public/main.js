@@ -1,6 +1,7 @@
 const socketFun = (() => {
     // make socket connection
-    let socket = io.connect('http://localhost:5000');
+    console.log(location.origin);
+    let socket = io.connect(location.origin);
     return {
         getSocket: () => { return socket }
     }
